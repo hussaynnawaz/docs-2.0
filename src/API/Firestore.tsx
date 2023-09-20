@@ -1,4 +1,4 @@
-import { firestore, auth } from "../firebaseConfig";
+import { firestore, auth } from "../../firebaseConfig";
 
 import {
   addDoc,
@@ -10,7 +10,7 @@ import {
   where,
 } from "firebase/firestore";
 
-let docs = collection(firestore, "docs");
+const docs = collection(firestore, "docs");
 
 type payloadType = {
   value: string;
@@ -37,7 +37,7 @@ export const getDocuments = (setDocs: any) => {
 };
 
 export const editDoc = (payload: any, id: string) => {
-  let docToEdit = doc(docs, id);
+  const docToEdit = doc(docs, id);
   updateDoc(docToEdit, payload, id);
 };
 
@@ -46,7 +46,7 @@ export const getCurrentDoc = async (
   setValue: any,
   setTitle: any
 ) => {
-  let docToGet = doc(docs, id);
+  const docToGet = doc(docs, id);
   await onSnapshot(docToGet, (response) => {
     setValue(response.data()?.value);
     setTitle(response.data()?.title);
