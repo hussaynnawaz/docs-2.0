@@ -50,6 +50,7 @@ export default function CreateDoc({ isEdit, handleEdit, id }: isEditType) {
           onChange={(event) => setTitle(event?.target.value)}
           placeholder="Enter the Title"
         />
+        
       </CommonModal>
       
     </div>

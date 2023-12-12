@@ -15,6 +15,7 @@ const ButtonComponent: React.FC<ButtonProps> = ({
       <Button size="large" type="primary" onClick={handleLogin}>
         {title}
       </Button>
+      
     </>
   );
 };

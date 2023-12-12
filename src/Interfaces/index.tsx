@@ -16,3 +16,9 @@ interface functionInterface {
 interface setterDoc {
   setDocs: Function;
 }
+interface docInterface {
+  id: string;
+  title: string;
+  value: string;
+  timestamp: any;
+}
