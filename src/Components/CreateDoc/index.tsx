@@ -51,6 +51,7 @@ export default function CreateDoc({ isEdit, handleEdit, id }: isEditType) {
           placeholder="Enter the Title"
         />
       </CommonModal>
+      
     </div>
   );
 }

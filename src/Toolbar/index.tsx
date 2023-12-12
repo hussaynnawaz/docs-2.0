@@ -2,7 +2,7 @@ import { Quill } from "react-quill";
 
 // Add sizes to whitelist and register them
 const Size = Quill.import("formats/size");
-Size.whitelist = ["extra-small", "small", "medium", "large"];
+Size.whitelist = ["extra-small", "small", "medium", "large", "extra-large"];
 Quill.register(Size, true);
 
 // Add fonts to whitelist and register them
@@ -14,6 +14,11 @@ Font.whitelist = [
   "georgia",
   "helvetica",
   "lucida",
+  "roboto",
+  "times-new-roman",
+  "trebuchet",
+  "ubuntu",
+  "Montserrat",
 ];
 Quill.register(Font, true);
 
@@ -49,19 +54,30 @@ export const formats = [
   "image",
   "color",
   "code-block",
+  "formula",
+  "video",
+  "direction",
+  "code",
+  
 ];
 
 // Quill Toolbar component
 export const QuillToolbar = () => (
   <div id="toolbar">
     <span className="ql-formats">
-      <select className="ql-font" defaultValue="arial">
+      <select className="ql-font" defaultValue="roboto ">
         <option value="arial">Arial</option>
         <option value="comic-sans">Comic Sans</option>
         <option value="courier-new">Courier New</option>
         <option value="georgia">Georgia</option>
         <option value="helvetica">Helvetica</option>
         <option value="lucida">Lucida</option>
+        <option value="roboto">Roboto</option>
+        <option value="times-new-roman">Times New Roman</option>
+        <option value="trebuchet">Trebuchet</option>
+        <option value="ubuntu">Ubuntu</option>
+        <option value="Montserrat">Montserrat</option>
+  
       </select>
       <select className="ql-size" defaultValue="medium">
         <option value="extra-small">Size 1</option>
