@@ -4,6 +4,8 @@ import ReactQuill from "react-quill";
 import EditorToolbar, { modules, formats } from "../../Toolbar";
 import { editDoc, getCurrentDoc } from "../../API/Firestore";
 import { Input } from "antd";
+import { asBlob } from 'html-docx-js-typescript';
+import { saveAs } from 'file-saver'
 
 export default function EditDoc({ id }: functionInterface) {
   let quillRef = useRef<any>(null);
@@ -25,6 +27,11 @@ export default function EditDoc({ id }: functionInterface) {
     }
   };
 
+  const downloadDocument = () => {
+    asBlob(value).then((data) => {
+      saveAs(data as Blob, 'file.docx') // save as docx file
+    }) 
+  }
   useEffect(() => {
     setIsSaving("");
     const debounced = setTimeout(() => {
@@ -63,6 +70,10 @@ export default function EditDoc({ id }: functionInterface) {
           formats={formats}
         />
       </div>
+
+      <button
+      onClick={downloadDocument}
+      >Download</button>
     </div>
   );
 }
