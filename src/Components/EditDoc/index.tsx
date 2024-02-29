@@ -5,7 +5,13 @@ import EditorToolbar, { modules, formats } from "../../Toolbar";
 import { editDoc, getCurrentDoc } from "../../API/Firestore";
 import { Input } from "antd";
 import { asBlob } from 'html-docx-js-typescript';
-import { saveAs } from 'file-saver'
+import { saveAs } from 'file-saver';
+import htmlToPdfmake from 'html-to-pdfmake';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+
+// Register fonts
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function EditDoc({ id }: functionInterface) {
   let quillRef = useRef<any>(null);
@@ -27,11 +33,22 @@ export default function EditDoc({ id }: functionInterface) {
     }
   };
 
-  const downloadDocument = () => {
+  const downloadDocumentAsDocx = () => {
     asBlob(value).then((data) => {
-      saveAs(data as Blob, 'file.docx') // save as docx file
+      saveAs(data as Blob, `${title}.docx`); // save as docx file with title as file name
     }) 
   }
+
+  const downloadDocumentAsPdf = () => {
+    const contentAsHtml = value; // Get HTML content from editor
+    const pdfContent = htmlToPdfmake(contentAsHtml);
+    
+    const documentDefinition = { content: pdfContent };
+    const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
+
+    pdfDocGenerator.download(`${title}.pdf`);
+  }
+
   useEffect(() => {
     setIsSaving("");
     const debounced = setTimeout(() => {
@@ -71,9 +88,8 @@ export default function EditDoc({ id }: functionInterface) {
         />
       </div>
 
-      <button
-      onClick={downloadDocument}
-      >Download</button>
+      <button onClick={downloadDocumentAsDocx}>Download as DOCX</button>
+      <button onClick={downloadDocumentAsPdf}>Download as PDF</button>
     </div>
   );
 }
