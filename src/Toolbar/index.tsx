@@ -125,6 +125,7 @@ export const QuillToolbar = () => (
       <button className="ql-clean" />
     </span>
     <span className="ql-formats"></span>
+    
   </div>
 );
 

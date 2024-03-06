@@ -35,14 +35,14 @@ export default function EditDoc({ id }: functionInterface) {
 
   const downloadDocumentAsDocx = () => {
     asBlob(value).then((data) => {
-      saveAs(data as Blob, `${title}.docx`); // save as docx file with title as file name
+      saveAs(data as Blob, `${title}.docx`); 
+      // save as docx file with title as file name
     }) 
   }
 
   const downloadDocumentAsPdf = () => {
     const contentAsHtml = value; // Get HTML content from editor
     const pdfContent = htmlToPdfmake(contentAsHtml);
-    
     const documentDefinition = { content: pdfContent };
     const pdfDocGenerator = pdfMake.createPdf(documentDefinition);
 
