@@ -1,5 +1,5 @@
 import "./index.scss";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import ReactQuill from "react-quill";
 import EditorToolbar, { modules, formats } from "../../Toolbar";
 import { editDoc, getCurrentDoc } from "../../API/Firestore";
@@ -14,24 +14,36 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function EditDoc({ id }: functionInterface) {
-  let quillRef = useRef<any>(null);
+  const quillRef = useRef<any>(null);
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
-  const [isSaving, setIsSaving] = useState("");
+  const localStorageKey =`documentVersion+${id}`;
+  const [versions, setVersion] = useState([])
 
-  function editDocument() {
-    let payload = {
+  const editDocument = useCallback(()=>{
+    const payload = {
       value,
       title,
     };
     editDoc(payload, id);
-  }
+  },[id, title, value]) 
 
-  const getCurrentDocument = () => {
+  useEffect(() => {
+    const debounced = setTimeout(() => {
+      editDocument();
+    }, 500);
+
+    return () => {
+      clearTimeout(debounced);
+    };
+  }, [value, title, editDocument]);
+    
+
+  const getCurrentDocument = useCallback(() => {
     if (id) {
       getCurrentDoc(id, setValue, setTitle);
     }
-  };
+  },[id]);
 
   const downloadDocumentAsDocx = () => {
     asBlob(value).then((data) => {
@@ -49,23 +61,37 @@ export default function EditDoc({ id }: functionInterface) {
     pdfDocGenerator.download(`${title}.pdf`);
   }
 
-  useEffect(() => {
-    setIsSaving("");
-    const debounced = setTimeout(() => {
-      editDocument();
-    }, 500);
+  const saveVersion = useCallback(() => {
+    const previousData = localStorage.getItem(localStorageKey);
+      if(previousData) {
+        
+        const preData = JSON.parse(previousData);
+        if(preData.length === 5) preData.shift();
+        const datatoStore =  JSON.stringify([...preData, value])
+        localStorage.setItem(localStorageKey,datatoStore )
+      } else {
+        localStorage.setItem(localStorageKey, JSON.stringify([value]));
+      }
+      const newData = (localStorage.getItem(localStorageKey))
+      if(newData) {
+        const versionsData = JSON.parse(newData);
+        setVersion(versionsData);
+      }
+  },[localStorageKey, value])
 
-    return () => {
-      clearTimeout(debounced);
-    };
-  }, [value, title]);
+  useEffect(()=>{
+    const previousData = localStorage.getItem(localStorageKey);
+    if(previousData) {
+      const versionsData = JSON.parse(previousData);
+        setVersion(versionsData);
+      }
+  },[])
 
   useEffect(() => {
     getCurrentDocument();
     quillRef.current.focus();
-  }, []);
+  }, [getCurrentDocument]);
 
-  console.log(isSaving);
   return (
     <div className="edit-container">
       {/* <p className="saving-conf">{isSaving}</p> */}
@@ -87,9 +113,19 @@ export default function EditDoc({ id }: functionInterface) {
           formats={formats}
         />
       </div>
-
+       <div className="action-buttons">
       <button onClick={downloadDocumentAsDocx}>Download as DOCX</button>
       <button onClick={downloadDocumentAsPdf}>Download as PDF</button>
+      <button onClick={saveVersion}>Save Version</button>
+       </div>
+      <div className="version-control">
+          <h3>Version Control</h3>
+          {versions.length > 0 ? versions.map((version,index: number) => {
+            return(
+              <li onClick={()=> setValue(version)} key={index}>Version {index + 1}</li>
+            )
+          }) : <></>}
+      </div>
     </div>
   );
 }

@@ -9,7 +9,7 @@ const Docs: React.FC = () => {
   const handleLogin = () => {
     loginWithGoogle();
   };
-  let { isAuthenticated, userData, loading } = useCheckAuth();
+  const { isAuthenticated, userData, loading } = useCheckAuth();
   if (loading) return <Spinner />;
 
   return (

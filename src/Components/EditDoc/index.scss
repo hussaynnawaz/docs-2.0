@@ -35,3 +35,35 @@
     width: 100%;
   }
 }
+.action-buttons {
+  position: absolute;
+  display: flex;
+  gap: 10px;
+  bottom:20px;
+  right:10px;
+
+  button {
+    padding-inline: 10px;
+    padding-block: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.10);
+    }
+  }
+}
+
+.version-control {
+  position: absolute;
+  right: 100px;
+  top:300px;
+
+  li {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    &:hover{
+      transform: scale(1.05);
+    }
+  }
+}
