@@ -16,7 +16,7 @@ export default function CreateDoc({ isEdit, handleEdit, id }: isEditType) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const createDocument = () => {
-    let payload = {
+    const payload = {
       title: title,
       value: "",
     };

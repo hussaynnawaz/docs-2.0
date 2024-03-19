@@ -1,7 +1,7 @@
 import "./index.scss";
 import { getDocuments } from "../../API/Firestore";
 import { useEffect, useState } from "react";
-import docsIcon from "../../assets/docsIcon.png";
+import docsIcon from  "../../assets/docsIcon.png";
 
 type OpenDocType = {
   openDoc: (id: string, value: string, title: string) => void;
