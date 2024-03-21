@@ -1,5 +1,5 @@
 import { Quill } from "react-quill";
-
+import "react-quill/dist/quill.snow.css"
 // Add sizes to whitelist and register them
 const Size = Quill.import("formats/size");
 Size.whitelist = ["extra-small", "small", "medium", "large", "extra-large"];
