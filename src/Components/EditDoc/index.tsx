@@ -129,7 +129,9 @@ export default function EditDoc({ id }: { id: string }) {
       <div className="action-buttons">
         <Button type="primary" onClick={downloadDocumentAsDocx}>Download as DOCX</Button>
         <Button type="primary" onClick={downloadDocumentAsPdf}>Download as PDF</Button>
-        <Button type="primary" onClick={saveVersion}>Save Version</Button>
+        <Button type="primary" onClick={saveVersion} style={{ backgroundColor: '#28a745' }}>
+  Save Version
+</Button>
       </div>
       <div className="version-control">
         <h3>Version Control</h3>
@@ -143,7 +145,7 @@ export default function EditDoc({ id }: { id: string }) {
         onCancel={cancelRestore}
         footer={[
           <Button key="restore" type="primary" onClick={restoreVersion}>Restore Version</Button>,
-          <Button key="cancel" onClick={cancelRestore}>Cancel</Button>,
+          <Button key="cancel" type="primary" danger onClick={cancelRestore}>Cancel</Button>,
         ]}
       >
         <div>

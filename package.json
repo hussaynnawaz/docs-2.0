@@ -10,8 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/antd": "^1.0.0",
     "@types/file-saver": "^2.0.7",
-    "antd": "^5.7.3",
+    "antd": "^5.15.3",
     "file-saver": "^2.0.5",
     "firebase": "^10.4.0",
     "html-docx-js-typescript": "^0.1.5",
